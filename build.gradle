@@ -16,3 +16,17 @@ repositories {
 
 apply plugin: 'kotlin'
 apply plugin: 'org.jetbrains.dokka'
+
+tasks.dokkaHtml.configure {
+    dokkaSourceSets.configureEach {
+        sourceLink {
+            // Note that all of these are wrong. They should be using .set() instead of =
+            // Running the dokkaHtml task doesn't surface the failure though, it passes silently and just
+            // doesn't generate source links
+            localDirectory = file("src/main/kotlin")
+            // Also note the missing "new" keywork here, which Groovy needs
+            remoteUrl = java.net.URL("https://github.com/drewhannay/dokka-repros/blob/main/src/main/kotlin")
+            remoteLineSuffix = "#L"
+        }
+    }
+}
